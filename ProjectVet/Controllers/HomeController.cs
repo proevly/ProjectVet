@@ -30,6 +30,14 @@ namespace ProjectVet.Controllers
         {
             return View();
         }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        public IActionResult SignIn2()
+        {
+            return View();
+        }
         public IActionResult Appointment()
         {
             return View();
