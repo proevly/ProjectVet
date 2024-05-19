@@ -1,0 +1,83 @@
+﻿
+
+.container {
+    max-width: 500px; /* Genişletilmiş max genişlik */
+    margin: 40px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-form {
+    text-align: center;
+}
+
+    .signup-form h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .form-group label {
+        font-weight: bold;
+        margin-right: 10px;
+        color: #555;
+        flex: 0 0 30%; /* Label'ların genişliği ayarlandı */
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+    }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group input[type="password"]:focus {
+            outline: none;
+            border-color: #0463FA;
+        }
+
+button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #0463FA;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    button[type="submit"]:hover {
+        background-color: #0345b2;
+    }
+
+.login-link {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+    .login-link a {
+        color: #0463FA;
+        text-decoration: none;
+    }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }

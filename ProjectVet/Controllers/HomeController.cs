@@ -22,7 +22,26 @@ namespace ProjectVet.Controllers
         {
             return View();
         }
-
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        public IActionResult SignIn2()
+        {
+            return View();
+        }
+        public IActionResult Appointment()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
