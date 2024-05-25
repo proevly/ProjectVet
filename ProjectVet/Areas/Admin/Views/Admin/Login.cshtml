@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Admin Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/admin.css" asp-append-version="true" />
+
+</head>
+<body>
+    <div class="container">
+        <div class="contact-form">
+            <img src="" class="admin-img">
+            <h2>Admin Login</h2>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-message">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <form method="post" action="@Url.Action("Login")">
+                <div class="nameText">
+                    <input type="text" name="username" placeholder="Kullanıcı Adı">
+                </div>
+                <div class="passwordText">
+                    <input type="password" name="password" placeholder="Şifre">
+                </div>
+                <input type="submit" class="logbtn" value="Giriş Yap">
+                <button type="submit" class="logbtn mt-3" asp-area="" asp-controller="Home" asp-action="SignIn2">Üye Ol</button>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

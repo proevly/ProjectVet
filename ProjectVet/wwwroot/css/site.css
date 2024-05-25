@@ -1,0 +1,58 @@
+.banner {
+    background-position: center;
+    background-size: cover;
+}
+
+.nav-item {
+    margin: 0 25px;
+    font-size: 20px;
+}
+
+.nav-link dropdown-toggle {
+    position: center;
+    margin: 0 25px;
+}
+
+.container-fluid {
+    background-color: #EEF5FF;
+}
+
+
+.navbar-brand {
+    font-size: 30px;
+    image-rendering: auto;
+}
+
+.btn-home, .btn-signup, .btn-admin {
+    position: center;
+    margin: 2px;
+    background-size: 5px;
+    background-color: none;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.card {
+    background-color: #B4D4FF;
+}
