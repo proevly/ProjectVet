@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjectVet.Models;
 using System.Diagnostics;
 
@@ -30,18 +31,28 @@ namespace ProjectVet.Controllers
         {
             return View();
         }
+
         public IActionResult SignIn2()
         {
             return View();
         }
+
+        [Authorize]
         public IActionResult Appointment()
         {
             return View();
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public JsonResult CheckLoginStatus()
+        {
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+            return Json(new { isAuthenticated = isAuthenticated });
         }
     }
 }
