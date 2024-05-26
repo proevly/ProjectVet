@@ -38,42 +38,12 @@ namespace ProjectVet.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //public IActionResult SignIn2()
-        //{
-        //     return View();
-        //    //var model = new EkleGuncelleKullaniciDto();
-        //    //return View(model);
-        //}
+
 
         public IActionResult SignIn2()
         {
             return View();
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult SignIn2(EkleGuncelleKullaniciDto model)
-        //{
-
-        //    if (!ModelState.IsValid)
-        //    {
-        //        // ModelState geçerli değilse, hata mesajlarıyla birlikte view'i tekrar göster
-        //        return View(model);
-        //    }
-        //    try
-        //    {
-
-        //        _kullaniciService.KullaniciEkle(model);
-        //        return RedirectToAction("SignIn2", "Home");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ModelState.AddModelError(string.Empty, $"Kelime eklenirken bir hata oluştu: {ex.Message}");
-        //        return View(model);
-        //    }
-        //}
-
 
 
         public IActionResult Appointment()
