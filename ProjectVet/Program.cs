@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.EfCore;
+using ProjectVet.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,9 @@ var loggerFactory = LoggerFactory.Create(builder =>
 {
     builder.AddConsole();
 });
+
+builder.Services.AddScoped<IKullaniciService, KullaniciService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
