@@ -28,13 +28,13 @@ namespace ProjectVet.EfCore
                 .HasMany(k => k.Randevular)
                 .WithOne(r => r.Kullanici)
                 .HasForeignKey(r => r.KullaniciId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Randevu>()
                 .HasOne(r => r.Pet)
                 .WithMany(p => p.Randevular)
                 .HasForeignKey(r => r.HayvanId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
