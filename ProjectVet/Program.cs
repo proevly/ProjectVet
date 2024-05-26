@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProjectVet.Areas.Admin.Services;
 using ProjectVet.EfCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,10 @@ var str = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<KlinikContext>(x => x.UseSqlServer(str));
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+// Add RandevuService to DI container
+builder.Services.AddScoped<IRandevuService, RandevuService>();
+
 
 var loggerFactory = LoggerFactory.Create(builder =>
 {

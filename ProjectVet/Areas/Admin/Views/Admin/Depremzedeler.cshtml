@@ -1,4 +1,7 @@
-﻿<html>
+﻿@model IEnumerable<ProjectVet.Areas.Admin.Dtos.RandevuDto>
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,42 +32,77 @@
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 </head>
-<body class="depremzedehtml">
-    <div>
-        <input id="ad" type="text" placeholder="Ad filtre" />
-    </div>
-    <div class="d-flex">
-        <div style="height:1000px;width:350px"></div>
-        <div style="margin-top:100px " class="justify-content-center">
-            <table id="table1" style="width:900px" class="table mt-2 table-striped table-hover">
-                <thead>
+<body>
+    <div class="container mt-5">
+        <h1>Randevu Listesi</h1>
+        <table id="randevuTable" class="display">
+            <thead>
+                <tr>
+                    <th>Ad</th>
+                    <th>Soyad</th>
+                    <th>Pet Tür</th>
+                    <th>Pet Cins</th>
+                    <th>Randevu Tarih</th>
+                    <th>Randevu Saat</th>
+                    <th>Aşı/Muayene</th>
+                    <th>Onay</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var randevu in Model)
+                    {
+                        <tr>
+                            <td>@randevu.KullaniciAd</td>
+                            <td>@randevu.KullaniciSoyad</td>
+                            <td>@randevu.PetTur</td>
+                            <td>@randevu.PetCins</td>
+                            <td>@randevu.RandevuTarih.ToShortDateString()</td>
+                            <td>@randevu.RandevuSaat.ToShortTimeString()</td>
+                            <td>@(randevu.AsiMiMuayeneMi ? "Aşı" : "Muayene")</td>
+                            <td>@(randevu.OnaylandiMi ? "Onaylandı" : "Bekliyor")</td>
+                            <td>
+                                @if (!randevu.OnaylandiMi)
+                                {
+                                    <button class="btn btn-success onayla" data-id="@randevu.Id">Onayla</button>
+                                    <button class="btn btn-danger reddet" data-id="@randevu.Id">Reddet</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
                     <tr>
-                        <th>Ad</th>
-                        <th>Soyad</th>
-                        <th>Yas</th>
-                        <th>Hastahane</th>
-                        <th></th>
+                        <td colspan="9" class="text-center">Randevu bulunamadı</td>
                     </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
 
-    <!--
-
-  
     <script>
         $(document).ready(function () {
-            var table = $('#table1').DataTable();
+            var table = $('#randevuTable').DataTable();
 
-            // Enable DataTables Search
-            $('#ad').on('keyup', function () {
-                table.column(0).search(this.value).draw();
+            $('#randevuTable').on('click', '.onayla', function () {
+                var id = $(this).data('id');
+                $.post(`/Randevu/Onayla/${id}`, function () {
+                    location.reload();
+                });
+            });
+
+            $('#randevuTable').on('click', '.reddet', function () {
+                var id = $(this).data('id');
+                if (confirm("Reddetmek istediğinize emin misiniz?")) {
+                    $.post(`/Randevu/Reddet/${id}`, function () {
+                        location.reload();
+                    });
+                }
             });
         });
     </script>
-    -->
 </body>
 </html>
