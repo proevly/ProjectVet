@@ -24,7 +24,7 @@ namespace ProjectVet.Areas.Admin.Controllers
 
             return View();
         }
-        public IActionResult Hastahaneler()
+        public IActionResult Kullanicilar()
         {
             var kullaniciList =_context.Kullanicilar.ToList();
             ViewBag.Kullanicilar=kullaniciList;
