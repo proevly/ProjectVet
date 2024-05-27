@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProjectVet.Areas.Admin.Services;
 using ProjectVet.EfCore;
 using ProjectVet.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,6 +21,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+
+// Add RandevuService to DI container
+builder.Services.AddScoped<IRandevuService, RandevuService>();
+
 
 var loggerFactory = LoggerFactory.Create(builder =>
 {
