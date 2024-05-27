@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.EfCore;
 using ProjectVet.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,15 @@ var str = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<KlinikContext>(x => x.UseSqlServer(str));
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Admin/Login";
+        options.AccessDeniedPath = "/Home/AccessDenied";
+    });
+
+builder.Services.AddAuthorization();
 
 var loggerFactory = LoggerFactory.Create(builder =>
 {
@@ -30,6 +40,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
@@ -43,4 +55,5 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 });
+
 app.Run();
