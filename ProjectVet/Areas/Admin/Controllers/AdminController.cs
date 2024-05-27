@@ -6,6 +6,11 @@ namespace ProjectVet.Areas.Admin.Controllers
     [Area("Admin")]
     public class AdminController : Controller
     {
+        private readonly KlinikContext _context;
+        public AdminController(KlinikContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();
@@ -19,9 +24,12 @@ namespace ProjectVet.Areas.Admin.Controllers
 
             return View();
         }
-        public IActionResult Hastahaneler()
+        public IActionResult Kullanicilar()
         {
-            return View();
+            var kullaniciList =_context.Kullanicilar.ToList();
+            ViewBag.Kullanicilar=kullaniciList;
+            return View(kullaniciList);
+            
         }
 
 
