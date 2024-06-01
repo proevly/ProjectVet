@@ -12,8 +12,8 @@ using ProjectVet.EfCore;
 namespace ProjectVet.Migrations
 {
     [DbContext(typeof(KlinikContext))]
-    [Migration("20240526111400_deneme_migration")]
-    partial class denememigration
+    [Migration("20240601100050_deneme4")]
+    partial class deneme4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,10 @@ namespace ProjectVet.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("KullaniciName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Mail")
                         .IsRequired()
