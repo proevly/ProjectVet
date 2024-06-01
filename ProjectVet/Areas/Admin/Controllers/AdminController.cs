@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.Areas.Admin.Dtos;
+using ProjectVet.Services;
 
 namespace ProjectVet.Areas.Admin.Controllers
 {
@@ -9,9 +10,11 @@ namespace ProjectVet.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         private readonly KlinikContext _context;
-        public AdminController(KlinikContext context)
+        private readonly IKullaniciService _kullaniciService;
+        public AdminController(KlinikContext context, IKullaniciService kullaniciService)
         {
             _context = context;
+            _kullaniciService = kullaniciService;
         }
         public IActionResult Index()
         {
@@ -62,9 +65,19 @@ namespace ProjectVet.Areas.Admin.Controllers
             }
             else
             {
-                // Hatalı giriş durumu
-                ViewBag.Error = "Hatalı kullanıcı adı veya şifre";
-                return View();
+                // Veritabanı üzerinden kullanıcı doğrulaması
+                var kullanici = _kullaniciService.Authenticate(username, password);
+                if (kullanici != null)
+                {
+                    // Giriş başarılı, Kullanici alanına yönlendirme
+                    return RedirectToAction("Index", "Kullanici", new {area="Kullanici"});
+                }
+                else
+                {
+                    // Hatalı giriş durumu
+                    ViewBag.Error = "Hatalı kullanıcı adı veya şifre";
+                    return View();
+                }
             }
         }
     }
