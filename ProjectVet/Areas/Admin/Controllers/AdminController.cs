@@ -1,4 +1,6 @@
-﻿using ProjectVet.EfCore;
+﻿
+
+using ProjectVet.EfCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.Areas.Admin.Dtos;
@@ -45,10 +47,10 @@ namespace ProjectVet.Areas.Admin.Controllers
         }
         public IActionResult Kullanicilar()
         {
-            var kullaniciList =_context.Kullanicilar.ToList();
-            ViewBag.Kullanicilar=kullaniciList;
+            var kullaniciList = _context.Kullanicilar.ToList();
+            ViewBag.Kullanicilar = kullaniciList;
             return View(kullaniciList);
-            
+
         }
 
 
@@ -82,3 +84,4 @@ namespace ProjectVet.Areas.Admin.Controllers
         }
     }
 }
+
