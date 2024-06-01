@@ -48,6 +48,7 @@ namespace ProjectVet.Services
                     Ad=x.Ad,
                     Soyad=x.Soyad,
                     TelefonNo=x.TelefonNo,
+                    KullaniciName=x.KullaniciName,
                     Mail=x.Mail,
                     Parola=x.Parola,
                 }).ToList();
@@ -61,6 +62,7 @@ namespace ProjectVet.Services
             {
                 Ad=input.Ad,
                 Soyad=input.Soyad,
+                KullaniciName=input.KullaniciName,
                 TelefonNo=input.TelefonNo,
                 Mail=input.Mail,
                 Parola=input.Parola,
@@ -80,6 +82,7 @@ namespace ProjectVet.Services
                     mevcutKullanici.Ad=input.Ad;
                     mevcutKullanici.Soyad=input.Soyad;
                     mevcutKullanici.TelefonNo=input.TelefonNo;
+                    mevcutKullanici.KullaniciName = input.KullaniciName;
                     mevcutKullanici.Mail=input.Mail;
                     mevcutKullanici.Parola=input.Parola;
                     _context.Kullanicilar.Update(mevcutKullanici);
