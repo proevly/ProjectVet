@@ -33,6 +33,10 @@ namespace ProjectVet.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("KullaniciName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

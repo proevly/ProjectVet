@@ -6,6 +6,8 @@ namespace ProjectVet.Dtos
     {
         [Key]
         public Guid KullaniciId { get; set; }
+        [Required(ErrorMessage = "Kullanici Adi boş olamaz!")]
+        public string KullaniciName { get; set;}
 
         [Required(ErrorMessage = "Ad boş olamaz!")]
         [StringLength(50)]

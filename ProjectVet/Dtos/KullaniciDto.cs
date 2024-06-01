@@ -5,6 +5,7 @@ namespace ProjectVet.Dtos
     public class KullaniciDto
     {
         public Guid KullaniciId { get; set; }
+        public string KullaniciName {  get; set; }
 
         public string Ad { get; set; }
 

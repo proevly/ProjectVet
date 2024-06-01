@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ProjectVet.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,8 @@ public class Kullanici
     [StringLength(50)]
     public string Soyad { get; set; }
 
+    [Required]
+    public string KullaniciName { get; set; }
     [Required]
     [Phone]
     public string TelefonNo { get; set; }

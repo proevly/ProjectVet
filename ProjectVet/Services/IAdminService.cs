@@ -1,4 +1,6 @@
-﻿namespace ProjectVet.Services
+﻿using ProjectVet.Areas.Admin.Dtos;
+
+namespace ProjectVet.Services
 {
     public interface IAdminService
     {
@@ -6,6 +8,5 @@
         void KullaniciListele(Kullanici input);
         Kullanici GetKullaniciById(Guid id);
         Kullanici GetKullaniciByName(string id);
-
     }
 }
