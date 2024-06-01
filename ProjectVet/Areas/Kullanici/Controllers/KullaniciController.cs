@@ -1,16 +1,20 @@
-﻿using ProjectVet.EfCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using ProjectVet.EfCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProjectVet.Services;
 
 namespace ProjectVet.Areas.Kullanici.Controllers
 {
-    [Area("Admin")]
+    [Area("Kullanici")]
     public class KullaniciController : Controller
     {
         private readonly KlinikContext _context;
-        public KullaniciController(KlinikContext context)
+        private readonly IKullaniciService _kullaniciService;
+        public KullaniciController(KlinikContext context, IKullaniciService kullaniciService)
         {
             _context = context;
+            _kullaniciService = kullaniciService;
         }
         public IActionResult Index()
         {

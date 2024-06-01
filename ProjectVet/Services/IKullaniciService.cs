@@ -1,4 +1,5 @@
-﻿using ProjectVet.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectVet.Dtos;
 using ProjectVet.EfCore;
 
 namespace ProjectVet.Services
@@ -12,6 +13,8 @@ namespace ProjectVet.Services
         Kullanici GetKullaniciById(Guid id);
 
         void KullaniciSil(Guid id);
+        public Kullanici Authenticate(string email, string password);
+
     }
 
     public class KullaniciService : IKullaniciService
@@ -24,6 +27,11 @@ namespace ProjectVet.Services
             _context = context;
         }
 
+        public Kullanici Authenticate(string email, string password)
+        {
+            // Kullanıcıyı e-posta ve şifreye göre doğrulayın
+            return _context.Kullanicilar.FirstOrDefault(k => k.Mail == email && k.Parola == password);
+        }
 
         public Kullanici GetKullaniciById(Guid id)
         {
