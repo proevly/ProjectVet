@@ -21,10 +21,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 
 // Add RandevuService to DI container
 builder.Services.AddScoped<IRandevuService, RandevuService>();
-
+builder.Services.AddScoped<IKullaniciRandevuService, KullaniciRandevuService>();
 
 var loggerFactory = LoggerFactory.Create(builder =>
 {
@@ -45,6 +47,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthentication();
 app.UseAuthorization();

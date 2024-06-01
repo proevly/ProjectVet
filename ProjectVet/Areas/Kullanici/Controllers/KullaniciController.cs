@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectVet.EfCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using ProjectVet.Models;
 
 namespace ProjectVet.Areas.Kullanici.Controllers
 {
@@ -11,45 +14,57 @@ namespace ProjectVet.Areas.Kullanici.Controllers
     {
         private readonly KlinikContext _context;
         private readonly IKullaniciService _kullaniciService;
-        public KullaniciController(KlinikContext context, IKullaniciService kullaniciService)
+        private readonly IKullaniciRandevuService _randevuService;
+
+        public KullaniciController(KlinikContext context, IKullaniciService kullaniciService, IKullaniciRandevuService randevuService)
         {
             _context = context;
             _kullaniciService = kullaniciService;
+            _randevuService = randevuService;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
+        public IActionResult Appointment()
+        {
+            return View();
+        }
+
         public IActionResult Login()
         {
             return View();
         }
-        public IActionResult Kullanicilar()
+
+        [HttpPost]
+        public IActionResult Appointment(Randevu randevu)
         {
-            var kullaniciList =_context.Kullanicilar.ToList();
-            ViewBag.Kullanicilar=kullaniciList;
-            return View(kullaniciList);
-            
+            _randevuService.RandevuEkle(randevu);
+            return View();
         }
 
-
-        // POST: /Admin/Login
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            // Kullanıcı adı ve şifre kontrolü
             if (username == "admin" && password == "admin")
             {
-                // Başarılı giriş durumu
-                // Burada giriş başarılı olduğunda yapılacak işlemleri ekleyebilirsiniz.
-                return RedirectToAction("Index", "Admin"); // Örnek bir yönlendirme
+                return RedirectToAction("Index", "Admin");
             }
             else
             {
-                // Hatalı giriş durumu
                 ViewBag.Error = "Hatalı kullanıcı adı veya şifre";
                 return View();
             }
+        }
+
+        [HttpGet]
+        public IActionResult CheckAvailability(DateTime date)
+        {
+            var unavailableTimes = _randevuService.GetUnavailableTimes(date);
+
+            return Ok(new { unavailableTimes });
         }
     }
 }

@@ -2,7 +2,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+namespace ProjectVet.Models
+{
 [Table("Randevu")]
 public class Randevu
 {
@@ -35,4 +36,5 @@ public class Randevu
 
     public  Pet Pet { get; set; }
 
+}
 }

@@ -58,6 +58,7 @@ namespace ProjectVet.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
+
             // Kullanıcı adı ve şifre kontrolü
             if (username == "admin" && password == "admin")
             {
@@ -72,6 +73,7 @@ namespace ProjectVet.Areas.Admin.Controllers
                 if (kullanici != null)
                 {
                     // Giriş başarılı, Kullanici alanına yönlendirme
+                    HttpContext.Session.SetString("UserId", kullanici.KullaniciId.ToString()); // userId kullanıcıdan alınmalı
                     return RedirectToAction("Index", "Kullanici", new {area="Kullanici"});
                 }
                 else
