@@ -3,6 +3,7 @@ using ProjectVet.Areas.Admin.Services;
 using ProjectVet.EfCore;
 using ProjectVet.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ProjectVet.Areas.Kullanici.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var str = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<KlinikContext>(x => x.UseSqlServer(str));
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -24,6 +26,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 
+builder.Services.AddScoped<AddPetsService>();
+
+
+
 // Add RandevuService to DI container
 builder.Services.AddScoped<IRandevuService, RandevuService>();
 builder.Services.AddScoped<IKullaniciRandevuService, KullaniciRandevuService>();
@@ -34,6 +40,8 @@ var loggerFactory = LoggerFactory.Create(builder =>
 });
 
 builder.Services.AddScoped<IKullaniciService, KullaniciService>();
+builder.Services.AddScoped<IKullaniciService, KullaniciService>();
+
 
 var app = builder.Build();
 

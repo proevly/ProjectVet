@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectVet.Migrations
 {
     /// <inheritdoc />
-    public partial class deneme4 : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,9 +29,9 @@ namespace ProjectVet.Migrations
                 columns: table => new
                 {
                     KullaniciId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    KullaniciName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Soyad = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    KullaniciName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TelefonNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Parola = table.Column<string>(type: "nvarchar(max)", nullable: false)

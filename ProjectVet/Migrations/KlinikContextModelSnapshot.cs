@@ -107,7 +107,7 @@ namespace ProjectVet.Migrations
                     b.ToTable("Admin");
                 });
 
-            modelBuilder.Entity("Randevu", b =>
+            modelBuilder.Entity("ProjectVet.Models.Randevu", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace ProjectVet.Migrations
                     b.Navigation("Kullanici");
                 });
 
-            modelBuilder.Entity("Randevu", b =>
+            modelBuilder.Entity("ProjectVet.Models.Randevu", b =>
                 {
                     b.HasOne("Pet", "Pet")
                         .WithMany("Randevular")

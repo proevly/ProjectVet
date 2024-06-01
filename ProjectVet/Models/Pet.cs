@@ -25,4 +25,5 @@ public class Pet
     public virtual Kullanici Kullanici { get; set; }
     public virtual ICollection<Randevu> Randevular { get; set; }
 
+   
 }
