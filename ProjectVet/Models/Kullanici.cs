@@ -17,6 +17,8 @@ public class Kullanici
     public string Soyad { get; set; }
 
     [Required]
+    public string KullaniciName { get; set; }
+    [Required]
     [Phone]
     public string TelefonNo { get; set; }
 
