@@ -33,7 +33,18 @@ builder.Services.AddScoped<AddPetsService>();
 // Add RandevuService to DI container
 builder.Services.AddScoped<IRandevuService, RandevuService>();
 builder.Services.AddScoped<IKullaniciRandevuService, KullaniciRandevuService>();
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<KlinikContext>();
+builder.Services.AddScoped<IKullaniciRandevuService, KullaniciRandevuService>();
+builder.Services.AddScoped<IKullaniciRandevuService>(provider =>
+{
+    var context = provider.GetService<KlinikContext>();
+    var httpContextAccessor = provider.GetService<IHttpContextAccessor>();   //Decorator Manuel Eklendi
+    var originalService = new KullaniciRandevuService(context, httpContextAccessor);
+    return new LoggingKullaniciRandevuServiceDecorator(originalService);
+}); builder.Services.AddScoped<IAdminService>(provider => AdminService.GetInstance(provider.GetService<KlinikContext>()));
+builder.Services.AddScoped<IKullaniciService, KullaniciService>();
+builder.Services.AddScoped<IProjectVetFacade, ProjectVetFacade>();
 var loggerFactory = LoggerFactory.Create(builder =>
 {
     builder.AddConsole();
