@@ -52,11 +52,11 @@ namespace ProjectVet.Services
             _context.SaveChanges();
         }
 
-        public List<Kullanici> KullaniciListele(Kullanici input)
-        {
-            var kullaniciList = _context.Kullanicilar.ToList();
-            return kullaniciList;
-        }
+        //public List<Kullanici> KullaniciListele(Kullanici input)
+        //{
+        //    var kullaniciList = _context.Kullanicilar.ToList();  //idil burayı tuba Singleton düzenlmesinden sonra kapattım haberin olsun
+        //    return kullaniciList;
+        //}
 
         public List<Kullanici> GetKullaniciList()
         {

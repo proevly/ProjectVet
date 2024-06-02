@@ -27,10 +27,9 @@ namespace ProjectVet.Services
 
         public void RandevuEkle(Randevu randevu)
         {
-            // Oturum değişkeninden kullanıcı kimliğini al
+            // Oturum değişkeninden kullanıcı kimliğini alma kısmı burası 
             var userId = _httpContextAccessor.HttpContext.Session.GetString("UserId");
 
-            // Kullanıcı kimliği null değilse, kullan
             if (!string.IsNullOrEmpty(userId))
             {
                 randevu.KullaniciId = Guid.Parse(userId);
@@ -51,8 +50,7 @@ namespace ProjectVet.Services
             }
             else
             {
-                // Oturum değişkeninden kullanıcı kimliği alınamadı, bir hata meydana geldi
-                throw new Exception("Kullanıcı oturumu bulunamadı.");
+
             }
         }
 

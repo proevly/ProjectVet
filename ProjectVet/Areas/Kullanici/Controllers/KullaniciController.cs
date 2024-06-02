@@ -27,6 +27,10 @@ namespace ProjectVet.Areas.Kullanici.Controllers
         {
             return View();
         }
+        public IActionResult AddPets()
+        {
+            return View();
+        }
 
         public IActionResult Appointment()
         {
