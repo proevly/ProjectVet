@@ -12,8 +12,8 @@ using ProjectVet.EfCore;
 namespace ProjectVet.Migrations
 {
     [DbContext(typeof(KlinikContext))]
-    [Migration("20240601100050_deneme4")]
-    partial class deneme4
+    [Migration("20240601163311_migration_eklendi")]
+    partial class migrationeklendi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -110,7 +110,7 @@ namespace ProjectVet.Migrations
                     b.ToTable("Admin");
                 });
 
-            modelBuilder.Entity("Randevu", b =>
+            modelBuilder.Entity("ProjectVet.Models.Randevu", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,7 +159,7 @@ namespace ProjectVet.Migrations
                     b.Navigation("Kullanici");
                 });
 
-            modelBuilder.Entity("Randevu", b =>
+            modelBuilder.Entity("ProjectVet.Models.Randevu", b =>
                 {
                     b.HasOne("Pet", "Pet")
                         .WithMany("Randevular")

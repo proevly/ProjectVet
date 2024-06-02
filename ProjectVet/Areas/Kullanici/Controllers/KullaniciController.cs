@@ -54,8 +54,19 @@ namespace ProjectVet.Areas.Kullanici.Controllers
             }
             else
             {
-                ViewBag.Error = "Hatalı kullanıcı adı veya şifre";
-                return View();
+                // Veritabanı üzerinden kullanıcı doğrulaması
+                var kullanici = _kullaniciService.Authenticate(username, password);
+                if (kullanici != null)
+                {
+                    // Giriş başarılı, Kullanici alanına yönlendirme
+                    return RedirectToAction("Index", "Kullanici", new { area = "Kullanici" });
+                }
+                else
+                {
+                    // Hatalı giriş durumu
+                    ViewBag.Error = "Hatalı kullanıcı adı veya şifre";
+                    return View();
+                }
             }
         }
 

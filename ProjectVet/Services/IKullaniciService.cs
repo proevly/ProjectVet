@@ -13,7 +13,7 @@ namespace ProjectVet.Services
         Kullanici GetKullaniciById(Guid id);
 
         void KullaniciSil(Guid id);
-        public Kullanici Authenticate(string email, string password);
+        public Kullanici Authenticate(string username, string password);
 
     }
 
@@ -27,10 +27,10 @@ namespace ProjectVet.Services
             _context = context;
         }
 
-        public Kullanici Authenticate(string email, string password)
+        public Kullanici Authenticate(string username, string password)
         {
             // Kullanıcıyı e-posta ve şifreye göre doğrulayın
-            return _context.Kullanicilar.FirstOrDefault(k => k.Mail == email && k.Parola == password);
+            return _context.Kullanicilar.FirstOrDefault(k => k.KullaniciName == username && k.Parola == password);
         }
 
         public Kullanici GetKullaniciById(Guid id)
