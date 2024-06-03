@@ -10,10 +10,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using ProjectVet.SignalR;
 using ProjectVet.Interfaces;
+using ProjectVet.Areas.Admin.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<OnaylaRandevuHandler>();
+builder.Services.AddTransient<ReddetRandevuHandler>();
+builder.Services.AddScoped<RandevuCommandHandler>();
+builder.Services.AddScoped<RandevuQueryHandler>();
 var str = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<KlinikContext>(x => x.UseSqlServer(str));
 builder.Logging.ClearProviders();
