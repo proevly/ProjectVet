@@ -13,7 +13,6 @@ using ProjectVet.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 var str = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<KlinikContext>(x => x.UseSqlServer(str));
@@ -50,7 +49,6 @@ builder.Services.AddScoped<IAdminService>(provider => AdminService.GetInstance(p
 builder.Services.AddScoped<IKullaniciService, KullaniciService>();
 builder.Services.AddScoped<IProjectVetFacade, ProjectVetFacade>();
 
-// Add SignalR to the services
 builder.Services.AddSignalR();
 
 var loggerFactory = LoggerFactory.Create(loggingBuilder =>
@@ -60,7 +58,6 @@ var loggerFactory = LoggerFactory.Create(loggingBuilder =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
