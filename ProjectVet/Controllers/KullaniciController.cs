@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectVet.Dtos;
-using ProjectVet.Services;
+using ProjectVet.Interfaces;
 
 namespace ProjectVet.Controllers
 {

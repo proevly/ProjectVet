@@ -6,11 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectVet.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:ProjectVet/Migrations/20240601163311_migration_eklendi.cs
-    public partial class migrationeklendi : Migration
-========
-    public partial class first : Migration
->>>>>>>> master:ProjectVet/Migrations/20240601165648_first.cs
+    public partial class ilk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

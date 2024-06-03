@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectVet.EfCore;
 using Microsoft.EntityFrameworkCore;
-using ProjectVet.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectVet.Models;
+using ProjectVet.Interfaces;
 
 namespace ProjectVet.Areas.Kullanici.Controllers
 {

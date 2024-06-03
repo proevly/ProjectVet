@@ -1,19 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using ProjectVet.EfCore;
+﻿using ProjectVet.EfCore;
+using ProjectVet.Interfaces;
 using ProjectVet.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.AspNetCore.Http;
+
 
 namespace ProjectVet.Services
 {
-    public interface IKullaniciRandevuService
-    {
-        void RandevuEkle(Randevu randevu);
-        List<Randevu> GetTumRandevular();
-        List<string> GetUnavailableTimes(DateTime date);
-    }
-
     public class KullaniciRandevuService : IKullaniciRandevuService
     {
         private readonly KlinikContext _context;

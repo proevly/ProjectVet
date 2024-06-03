@@ -4,7 +4,7 @@ using ProjectVet.EfCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.Areas.Admin.Dtos;
-using ProjectVet.Services;
+using ProjectVet.Interfaces;
 
 namespace ProjectVet.Areas.Admin.Controllers
 {

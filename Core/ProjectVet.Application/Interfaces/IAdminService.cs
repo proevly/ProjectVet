@@ -1,6 +1,6 @@
-﻿using ProjectVet.Areas.Admin.Dtos;
+﻿
 
-namespace ProjectVet.Services
+namespace ProjectVet.Interfaces
 {
     public interface IAdminService
     {

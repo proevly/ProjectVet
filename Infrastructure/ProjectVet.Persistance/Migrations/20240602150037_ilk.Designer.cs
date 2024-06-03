@@ -12,13 +12,8 @@ using ProjectVet.EfCore;
 namespace ProjectVet.Migrations
 {
     [DbContext(typeof(KlinikContext))]
-<<<<<<<< HEAD:ProjectVet/Migrations/20240601163311_migration_eklendi.Designer.cs
-    [Migration("20240601163311_migration_eklendi")]
-    partial class migrationeklendi
-========
-    [Migration("20240601165648_first")]
-    partial class first
->>>>>>>> master:ProjectVet/Migrations/20240601165648_first.Designer.cs
+    [Migration("20240602150037_ilk")]
+    partial class ilk
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

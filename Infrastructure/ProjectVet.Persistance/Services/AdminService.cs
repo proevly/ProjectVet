@@ -1,11 +1,8 @@
 ﻿
 //SİNGLETON  BURADA
 
-using ProjectVet.Areas.Admin.Dtos;
+using ProjectVet.Interfaces;
 using ProjectVet.EfCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ProjectVet.Services
 {

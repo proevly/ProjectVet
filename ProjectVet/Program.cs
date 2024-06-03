@@ -4,6 +4,7 @@ using ProjectVet.EfCore;
 using ProjectVet.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using ProjectVet.Areas.Kullanici.Services;
+using ProjectVet.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
