@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using ProjectVet.SignalR;
+using ProjectVet.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

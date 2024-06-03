@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectVet.Dtos;
+using ProjectVet.Interfaces;
 using ProjectVet.Models;
-using ProjectVet.Services;
 using System.Diagnostics;
 
 namespace ProjectVet.Controllers
