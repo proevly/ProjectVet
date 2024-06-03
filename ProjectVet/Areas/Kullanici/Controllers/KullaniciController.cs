@@ -42,6 +42,10 @@ namespace ProjectVet.Areas.Kullanici.Controllers
             return View();
         }
 
+        public IActionResult AboutUs()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult Appointment(Randevu randevu)
         {
