@@ -33,6 +33,7 @@
   <ItemGroup>
     <Folder Include="Areas\Kullanici\Data\" />
     <Folder Include="Areas\Kullanici\Models\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
