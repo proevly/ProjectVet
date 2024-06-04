@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Hosting;
 using ProjectVet.SignalR;
 using ProjectVet.Interfaces;
 using ProjectVet.Areas.Admin.Handlers;
+using ProjectVet.Application.Interfaces;
+using ProjectVet.Domain.Entities.Models;
+using ProjectVet.Persistance.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +42,7 @@ builder.Services.AddScoped<AddPetsService>();
 
 builder.Services.AddScoped<IRandevuService, RandevuService>();
 builder.Services.AddScoped<IKullaniciRandevuService, KullaniciRandevuService>();
+builder.Services.AddScoped<IRandevuKisitService, RandevuKisitService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<KlinikContext>();
 

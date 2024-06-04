@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectVet.Areas.Admin.Dtos;
 using ProjectVet.Interfaces;
+using ProjectVet.Domain.Entities.Models;
+using ProjectVet.Application.Interfaces;
 
 namespace ProjectVet.Areas.Admin.Controllers
 {
@@ -13,10 +15,12 @@ namespace ProjectVet.Areas.Admin.Controllers
     {
         private readonly KlinikContext _context;
         private readonly IKullaniciService _kullaniciService;
-        public AdminController(KlinikContext context, IKullaniciService kullaniciService)
+        private readonly IRandevuKisitService _randevuKisitService;
+        public AdminController(KlinikContext context, IKullaniciService kullaniciService, IRandevuKisitService randevuKisitService)
         {
             _context = context;
             _kullaniciService = kullaniciService;
+            _randevuKisitService = randevuKisitService;
         }
         public IActionResult Index()
         {
@@ -52,6 +56,54 @@ namespace ProjectVet.Areas.Admin.Controllers
             return View(kullaniciList);
 
         }
+
+
+        public ActionResult RandevuKisitla()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RandevuKisitla(RandevuKisitDto model)
+        {
+            DateTime tarih = model.Tarih;
+            bool ogledenOnceMi = model.OgledenOnceMi;
+
+            // Verileri kullanarak işlemler yapın
+            // Örneğin, _randevuKisitService.RandevuKisitEkle(model) gibi bir işlem yapabilirsiniz.
+
+            if (ModelState.IsValid)
+            {
+                var kisitVarMi = _context.RandevuKisitlar
+                    .FirstOrDefault(r => r.Tarih == model.Tarih && r.OgledenOnceMi == model.OgledenOnceMi);
+
+                if (kisitVarMi != null)
+                {
+                     TempData["WarningMessage"] = "Bu tarih ve saat için kısıt zaten mevcut.";
+                     return RedirectToAction("RandevuKisitla");
+                }
+                else
+                {
+
+                    _randevuKisitService.RandevuKisitEkle(model);
+
+                    TempData["SuccessMessage"] = "Randevu saatleri başarıyla kısıtlandı.";
+                    return RedirectToAction("RandevuKisitla");
+
+                }
+
+
+            }
+            else
+            {
+                ModelState.AddModelError("OgledenOnceMi", "Lütfen geçerli bir zaman dilimi seçiniz.");
+            }
+
+            return View("RandevuKisitla");
+        }
+
+       
+
 
 
         // POST: /Admin/Login

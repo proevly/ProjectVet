@@ -17,7 +17,7 @@ namespace ProjectVet.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public void RandevuEkle(Randevu randevu)
+        public string RandevuEkle(Randevu randevu)
         {
             // Oturum değişkeninden kullanıcı kimliğini alma kısmı burası 
             var userId = _httpContextAccessor.HttpContext.Session.GetString("UserId");
@@ -39,10 +39,11 @@ namespace ProjectVet.Services
                     RandevuTarih = randevu.RandevuTarih
                 });
                 _context.SaveChanges();
+                return "Randevunuz başarıyla oluşturuldu!";
             }
             else
             {
-
+                return "Kullanıcı kimliği bulunamadı.";
             }
         }
 
@@ -60,5 +61,18 @@ namespace ProjectVet.Services
 
             return unavailableTimes;
         }
+
+        public List<Pet> GetKullaniciPets(Guid kullaniciId)
+        {
+            var pets = _context.Petler.Where(p => p.KullaniciId == kullaniciId).ToList();
+            if (pets == null || !pets.Any())
+            {
+                Console.WriteLine($"No pets found for user with ID: {kullaniciId}");
+            }
+            return pets;
+        }
+
+
+
     }
 }

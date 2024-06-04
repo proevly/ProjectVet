@@ -1,8 +1,6 @@
-﻿@model ProjectVet.Models.Randevu
-
+﻿@model ProjectVet.Application.ViewModels.AppointmentViewModel
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Klinik - Clinic Website Template</title>
@@ -33,7 +31,6 @@
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
 </head>
-
 <body>
     <!-- Appointment Start -->
     <div class="container-xxl py-5">
@@ -45,44 +42,57 @@
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="bg-light rounded h-100 d-flex align-items-center p-5">
-                        <form asp-action="Appointment" asp-controller="Kullanici" method="post">
+                        <form id="appointmentForm" action="/Kullanici/Appointment" method="post">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 align-items-center">
-                                    <select asp-for="AsiMiMuayeneMi" class="form-select border-0" style="height: 55px;">
+                                    <select asp-for="Randevu.AsiMiMuayeneMi" class="form-select border-0" style="height: 55px;">
                                         <option value="true">Aşı/Bakım</option>
                                         <option value="false">Muayene</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 col-sm-6 align-items-center">
+                                    <label asp-for="Randevu.HayvanId">Pet Seçin</label>
+                                    <select asp-for="Randevu.HayvanId" class="form-select border-0" style="height: 55px;">
+                                        <option value="">Pet Seçin</option>
+                                        @foreach (var pet in Model.Pets)
+                                        {
+                                            <option value="@pet.Cins">@pet.Tur</option>
+                                        }
                                     </select>
                                 </div>
                                 <div class="container">
                                     <div class="row mt-5">
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label asp-for="RandevuTarih">Tarih Seç</label>
-                                                <input asp-for="RandevuTarih" type="date" id="date" class="form-control" style="height: 55px;">
+                                                <label asp-for="Randevu.RandevuTarih">Tarih Seç</label>
+                                                <input asp-for="Randevu.RandevuTarih" type="date" id="date" class="form-control" style="height: 55px;">
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
-                                                <label asp-for="RandevuSaat">Saat Seç</label>
-                                                <select asp-for="RandevuSaat" id="time" class="form-control" style="height: 55px;">
+                                                <label asp-for="Randevu.RandevuSaat">Saat Seç</label>
+                                                <select asp-for="Randevu.RandevuSaat" id="time" class="form-control" style="height: 55px;">
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <textarea asp-for="Aciklama" class="form-control border-0" rows="5" placeholder="Ek Açıklamanızı Buraya yazınız(Randevuya Dair Açıklama)"></textarea>
+                                    <textarea asp-for="Randevu.Aciklama" class="form-control border-0" rows="5" placeholder="Ek Açıklamanızı Buraya yazınız(Randevuya Dair Açıklama)"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Randevu Al</button>
                                 </div>
                             </div>
                         </form>
+                        <div id="message" class="alert alert-success mt-3 d-none" role="alert"></div>
+                        <div id="error-message" class="alert alert-danger mt-3 d-none" role="alert"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Appointment End -->
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -186,33 +196,48 @@
 
             populateTimeOptions([]);
 
-            // SignalR bağlantısı kurma
-            const connection = new signalR.HubConnectionBuilder()
-                .withUrl("/randevuhub")
-                .build();
+            //// SignalR bağlantısı kurma
+            //const connection = new signalR.HubConnectionBuilder()
+            //    .withUrl("/randevuhub")
+            //    .build();
 
-            connection.on("ReceiveRandevuCreatedNotification", (message) => {
-                alert(message);
-            });
+            //connection.on("ReceiveRandevuCreatedNotification", (message) => {
+            //    alert(message);
+            //});
 
-            connection.start().catch(err => console.error(err.toString()));
+            //connection.start().catch(err => console.error(err.toString()));
 
             $('#appointmentForm').on('submit', function (event) {
                 event.preventDefault();
+                console.log("Form submitted");
                 $.ajax({
                     url: '/Kullanici/Appointment',
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function (response) {
+                        console.log("AJAX request successful");
                         connection.invoke("SendRandevuCreatedNotification", "Yeni bir randevu oluşturuldu!")
                             .catch(err => console.error(err.toString()));
+                        $('#message').text("Randevu başarıyla oluşturuldu!").removeClass('d-none');
+                        $('#error-message').addClass('d-none');
                     },
                     error: function (err) {
                         console.error(err);
+
+                        // Hatayı detaylı olarak konsola yazdır
+                        for (var key in err) {
+                            console.log(key + ':', err[key]);
+                        }
+
+                        var errorMessage = "Randevu oluşturulamadı. Hata: " + err.message;
+                        $('#error-message').text(errorMessage).removeClass('d-none');
+                        $('#message').addClass('d-none');
                     }
+
                 });
             });
         });
+
     </script>
 </body>
 

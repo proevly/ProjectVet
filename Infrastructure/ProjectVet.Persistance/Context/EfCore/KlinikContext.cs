@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectVet.Domain.Entities.Models;
 using ProjectVet.Models;
 
 namespace ProjectVet.EfCore
@@ -9,6 +10,7 @@ namespace ProjectVet.EfCore
         public DbSet<Pet> Petler { get; set; }
         public DbSet<Randevu> Randevular { get; set; }
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<RandevuKisit> RandevuKisitlar { get; set; }
 
         public KlinikContext(DbContextOptions<KlinikContext> options) : base(options)
         {

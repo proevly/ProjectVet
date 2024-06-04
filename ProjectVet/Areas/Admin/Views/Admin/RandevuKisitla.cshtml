@@ -1,0 +1,54 @@
+﻿@model ProjectVet.Areas.Admin.Dtos.RandevuKisitDto
+
+@{
+    ViewBag.Title = "Randevu Saatlerini Kısıtla";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] Admin Panel Login</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/admin.css" asp-append-version="true" />
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>@ViewBag.Title</h2>
+
+        @using (Html.BeginForm("RandevuKisitla", "Admin", FormMethod.Post))
+        {
+             <div class="form-group mt-3">
+                 <label for="Tarih">Tarih</label>
+                 <input type="date" id="Tarih" name="Tarih" class="form-control" required />
+            </div>
+
+             <div class="form-group mt-3">
+               <label for="OgledenDurum">Öğleden Önce/Öğleden Sonra</label>
+              <select id="OgledenDurum" name="OgledenOnceMi" class="form-control">
+                 <option value="">Seçiniz</option>
+                 <option value="true">Öğleden Önce</option>
+                 <option value="false">Öğleden Sonra</option>
+             </select>
+            </div>
+
+            <div class="form-group mt-3">
+                 <button type="submit" class="btn btn-primary">Kaydet</button>
+             </div>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+            @if (TempData["WarningMessage"] != null)
+    {
+        <div class="alert alert-warning">@TempData["WarningMessage"]</div>
+    }
+    </div>
+</body>
+</html>

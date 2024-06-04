@@ -4,9 +4,10 @@ namespace ProjectVet.Interfaces
 {
     public interface IKullaniciRandevuService
     {
-        void RandevuEkle(Randevu randevu);
+        string RandevuEkle(Randevu randevu);
         List<Randevu> GetTumRandevular();
         List<string> GetUnavailableTimes(DateTime date);
+        List<Pet> GetKullaniciPets(Guid kullaniciId);
     }
 
 }

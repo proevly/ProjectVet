@@ -1,5 +1,6 @@
 ﻿using ProjectVet.Interfaces;
 using ProjectVet.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ProjectVet.Services
 {
@@ -13,9 +14,10 @@ namespace ProjectVet.Services
             _decoratedService = decoratedService;
         }
 
-        public void RandevuEkle(Randevu randevu)
+        public string RandevuEkle(Randevu randevu)
         {
-            _decoratedService.RandevuEkle(randevu);
+            var result = _decoratedService.RandevuEkle(randevu);
+            return result;
         }
 
         public List<Randevu> GetTumRandevular()
@@ -27,6 +29,12 @@ namespace ProjectVet.Services
         public List<string> GetUnavailableTimes(DateTime date)
         {
             var result = _decoratedService.GetUnavailableTimes(date);
+            return result;
+        }
+
+        public List<Pet> GetKullaniciPets(Guid kullaniciId)
+        {
+            var result = _decoratedService.GetKullaniciPets(kullaniciId);
             return result;
         }
     }

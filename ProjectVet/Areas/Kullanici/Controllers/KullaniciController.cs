@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectVet.Models;
 using ProjectVet.Interfaces;
+using ProjectVet.Application.ViewModels;
+using ProjectVet.Areas.Kullanici.Dtos;
 
 namespace ProjectVet.Areas.Kullanici.Controllers
 {
@@ -32,10 +34,63 @@ namespace ProjectVet.Areas.Kullanici.Controllers
             return View();
         }
 
+        public IActionResult Randevularim()
+        {
+            var randevular = _context.Randevular
+                .Select(r => new RandevuDto
+            {
+                Id = r.Id,
+                KullaniciAd = r.Kullanici.Ad,
+                KullaniciSoyad = r.Kullanici.Soyad,
+                PetTur = r.Pet.Tur,
+                PetCins = r.Pet.Cins,
+                RandevuTarih = r.RandevuTarih,
+                RandevuSaat = r.RandevuSaat,
+                AsiMiMuayeneMi = r.AsiMiMuayeneMi,
+                OnaylandiMi = r.OnaylandiMi
+            })
+            .ToList();
+
+            return View(randevular);
+        }
+
+        [HttpGet]
         public IActionResult Appointment()
         {
-            return View();
+
+            var userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+            {
+                // Log the issue and redirect to login
+                Console.WriteLine("UserId is null or empty, redirecting to login.");
+                return RedirectToAction("Login", "Admin", new { area = "Admin" });
+            }
+
+            var kullaniciId = Guid.Parse(userId);
+            var pets = _randevuService.GetKullaniciPets(kullaniciId);
+
+            if (pets == null || !pets.Any())
+            {
+                // Log if no pets are found for the user
+                Console.WriteLine("No pets found for the user.");
+            }
+
+            var model = new AppointmentViewModel
+            {
+                Randevu = new Randevu(),
+                Pets = pets.Select(p => new Pet
+                {
+                    Id = p.Id,
+                    KullaniciId=p.KullaniciId,
+                    Tur = p.Tur,
+                    Cins = p.Cins,
+                }).ToList()
+            };
+
+            return View(model);
         }
+
+
 
         public IActionResult Login()
         {
@@ -46,12 +101,8 @@ namespace ProjectVet.Areas.Kullanici.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult Appointment(Randevu randevu)
-        {
-            _randevuService.RandevuEkle(randevu);
-            return View();
-        }
+
+
 
         [HttpPost]
         public IActionResult Login(string username, string password)
