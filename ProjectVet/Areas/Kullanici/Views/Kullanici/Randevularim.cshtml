@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/admin.css" asp-append-version="true" />
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>Randevularım</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
     <!-- Favicons -->
@@ -100,26 +100,5 @@
     <!-- Include DataTables -->
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('#randevuTable').DataTable();
-
-            $('#randevuTable').on('click', '.onayla', function () {
-                var id = $(this).data('id');
-                $.post(`/Randevu/Onayla/${id}`, function () {
-                    location.reload();
-                });
-            });
-
-            $('#randevuTable').on('click', '.reddet', function () {
-                var id = $(this).data('id');
-                if (confirm("Reddetmek istediğinize emin misiniz?")) {
-                    $.post(`/Randevu/Reddet/${id}`, function () {
-                        location.reload();
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
