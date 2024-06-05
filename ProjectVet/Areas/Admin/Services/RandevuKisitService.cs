@@ -29,6 +29,16 @@ namespace ProjectVet.Persistance.Services
             });
             _context.SaveChanges();
         }
+
+        public List<string> GetUnavailableTimes(DateTime date)
+        {
+            var unavailableTimes = _context.RandevuKisitlar
+                .Where(r => r.Tarih.Date == date.Date)
+                .Select(r => r.Tarih.ToString("HH:mm"))
+                .ToList();
+
+            return unavailableTimes;
+        }
     }
 
 }

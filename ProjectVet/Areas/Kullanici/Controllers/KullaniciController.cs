@@ -8,6 +8,8 @@ using ProjectVet.Models;
 using ProjectVet.Interfaces;
 using ProjectVet.Application.ViewModels;
 using ProjectVet.Areas.Kullanici.Dtos;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace ProjectVet.Areas.Kullanici.Controllers
 {
@@ -36,59 +38,129 @@ namespace ProjectVet.Areas.Kullanici.Controllers
 
         public IActionResult Randevularim()
         {
-            var randevular = _context.Randevular
-                .Select(r => new RandevuDto
+            // Oturumdan kullanıcı ID'sini al
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (userIdString == null)
             {
-                Id = r.Id,
-                KullaniciAd = r.Kullanici.Ad,
-                KullaniciSoyad = r.Kullanici.Soyad,
-                PetTur = r.Pet.Tur,
-                PetCins = r.Pet.Cins,
-                RandevuTarih = r.RandevuTarih,
-                RandevuSaat = r.RandevuSaat,
-                AsiMiMuayeneMi = r.AsiMiMuayeneMi,
-                OnaylandiMi = r.OnaylandiMi
-            })
-            .ToList();
+                // Kullanıcı oturumu yoksa, giriş yapma sayfasına yönlendir
+                return RedirectToAction("Login", "Admin", new { area = "Admin" });
+            }
+            if (!Guid.TryParse(userIdString, out Guid userId))
+            {
+                // Kullanıcı ID'si geçerli değilse veya oturumda yoksa, hata döndür
+                return RedirectToAction("Login", "Admin", new { area = "Admin" });
+            }
+
+            var randevular = _context.Randevular
+                .Where(r => r.Kullanici.KullaniciId == userId) // Kullanıcı ID'sine göre filtreleme
+                .Select(r => new RandevuDto
+                {
+                    Id = r.Id,
+                    KullaniciAd = r.Kullanici.Ad,
+                    KullaniciSoyad = r.Kullanici.Soyad,
+                    PetTur = r.Pet.Tur,
+                    PetCins = r.Pet.Cins,
+                    RandevuTarih = r.RandevuTarih,
+                    RandevuSaat = r.RandevuSaat,
+                    AsiMiMuayeneMi = r.AsiMiMuayeneMi,
+                    OnaylandiMi = r.OnaylandiMi
+                })
+                .ToList();
 
             return View(randevular);
         }
 
+
         [HttpGet]
         public IActionResult Appointment()
         {
-
-            var userId = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userId))
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (userIdString == null)
             {
-                // Log the issue and redirect to login
-                Console.WriteLine("UserId is null or empty, redirecting to login.");
+                // Kullanıcı oturumu yoksa, giriş yapma sayfasına yönlendir
                 return RedirectToAction("Login", "Admin", new { area = "Admin" });
             }
 
-            var kullaniciId = Guid.Parse(userId);
-            var pets = _randevuService.GetKullaniciPets(kullaniciId);
-
-            if (pets == null || !pets.Any())
+            // Kullanıcı kimliğini Guid türüne dönüştür
+            if (!Guid.TryParse(userIdString, out Guid userId))
             {
-                // Log if no pets are found for the user
-                Console.WriteLine("No pets found for the user.");
+
+                return RedirectToAction("Error", "Home");
             }
 
-            var model = new AppointmentViewModel
+            // Kullanıcının oturumu varsa, kullanıcının petlerini al
+            var userPets = _randevuService.GetKullaniciPets(userId);
+            if (userPets == null)
             {
-                Randevu = new Randevu(),
-                Pets = pets.Select(p => new Pet
-                {
-                    Id = p.Id,
-                    KullaniciId=p.KullaniciId,
-                    Tur = p.Tur,
-                    Cins = p.Cins,
-                }).ToList()
+                return RedirectToAction("Error", "Home");
+            }
+
+            // Kullanıcının petleri varsa, AppointmentViewModel'e petlerinizi atayın
+            var viewModel = new AppointmentViewModel
+            {
+                Pets = userPets
             };
 
-            return View(model);
+            // Randevu oluşturma sayfasını göster
+            return View(viewModel);
         }
+
+
+
+
+        [HttpPost]
+        public IActionResult Appointment(AppointmentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var userId = HttpContext.Session.GetString("UserId");
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var result = _randevuService.RandevuEkle(model.Randevu);
+                    return Json(result);
+
+                }
+                return BadRequest(); // Örneğin, BadRequest (HTTP 400) durumu döndürülebilir
+            }
+            return Ok(); // Örneğin, OK (HTTP 200) durumu döndürülebilir
+
+
+        }
+
+
+        [HttpGet]
+        [Route("api/check-availability")]
+        public IActionResult CheckAvailability(DateTime date)
+        {
+            var kisit = _context.RandevuKisitlar.FirstOrDefault(k => k.Tarih == date);
+            var unavailableTimes = new List<string>();
+
+            if (kisit != null)
+            {
+                if (kisit.OgledenOnceMi)
+                {
+                    for (int i = 9; i < 13; i++)
+                    {
+                        unavailableTimes.Add(i.ToString("D2") + ":00");
+                        unavailableTimes.Add(i.ToString("D2") + ":30");
+                    }
+                }
+                else
+                {
+                    for (int i = 14; i <= 17; i++)
+                    {
+                        unavailableTimes.Add(i.ToString("D2") + ":00");
+                        unavailableTimes.Add(i.ToString("D2") + ":30");
+                    }
+                }
+                // 12:00, 12:30 ve 13:00 saatlerini her durumda eklenmeyecek şekilde manuel olarak ekliyoruz
+                unavailableTimes.Add("13:00");
+                unavailableTimes.Add("13:30");
+            }
+
+            return Ok(new { unavailableTimes });
+        }
+
 
 
 
@@ -129,12 +201,5 @@ namespace ProjectVet.Areas.Kullanici.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult CheckAvailability(DateTime date)
-        {
-            var unavailableTimes = _randevuService.GetUnavailableTimes(date);
-
-            return Ok(new { unavailableTimes });
-        }
     }
 }

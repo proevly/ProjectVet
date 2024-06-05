@@ -30,6 +30,14 @@
 
     <!-- Template Stylesheet -->
     <link href="/css/style.css" rel="stylesheet">
+
+@*    <!-- Custom Stylesheet -->
+    <style>
+        .unavailable-time {
+            background-color: #696969;
+            color: white;
+        }
+    </style>*@
 </head>
 <body>
     <!-- Appointment Start -->
@@ -42,7 +50,7 @@
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                     <div class="bg-light rounded h-100 d-flex align-items-center p-5">
-                        <form id="appointmentForm" action="/Kullanici/Appointment" method="post">
+                        <form id="appointmentForm" action="/Kullanici/Appointment" method="POST">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 align-items-center">
                                     <select asp-for="Randevu.AsiMiMuayeneMi" class="form-select border-0" style="height: 55px;">
@@ -51,14 +59,14 @@
                                     </select>
                                 </div>
                                 <div class="col-12 col-sm-6 align-items-center">
-                                    <label asp-for="Randevu.HayvanId">Pet Seçin</label>
                                     <select asp-for="Randevu.HayvanId" class="form-select border-0" style="height: 55px;">
                                         <option value="">Pet Seçin</option>
                                         @foreach (var pet in Model.Pets)
                                         {
-                                            <option value="@pet.Cins">@pet.Tur</option>
+                                            <option value="@pet.Id">@pet.Tur</option>
                                         }
                                     </select>
+
                                 </div>
                                 <div class="container">
                                     <div class="row mt-5">
@@ -85,8 +93,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div id="message" class="alert alert-success mt-3 d-none" role="alert"></div>
-                        <div id="error-message" class="alert alert-danger mt-3 d-none" role="alert"></div>
+
                     </div>
                 </div>
             </div>
@@ -156,24 +163,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
     <script>
         $(document).ready(function () {
-            // İş saatleri örneği: 09:00 - 17:00
             var businessHours = [];
             for (var i = 9; i <= 17; i++) {
-                var hour = i < 10 ? '0' + i : i;
-                businessHours.push(hour + ':00');
-                businessHours.push(hour + ':30');
+                if (i !== 13 && i !== 13) { // 12:00, 12:30 ve 13:00 saatlerini dahil etme
+                    var hour = i < 10 ? '0' + i : i;
+                    businessHours.push(hour + ':00');
+                    businessHours.push(hour + ':30');
+                }
             }
 
-            // İş saatlerini saat seçeneğine ekle
             function populateTimeOptions(unavailableTimes) {
                 var timeSelect = $('#time');
                 timeSelect.empty();
                 businessHours.forEach(function (time) {
-                    var option = $('<option></option>').val(time).text(time);
-                    if (unavailableTimes.includes(time)) {
-                        option.prop('disabled', true);
+                    if (!unavailableTimes.includes(time)) {
+                        var option = $('<option></option>').val(time).text(time);
+                        timeSelect.append(option);
                     }
-                    timeSelect.append(option);
                 });
             }
 
@@ -196,30 +202,36 @@
 
             populateTimeOptions([]);
 
-            //// SignalR bağlantısı kurma
-            //const connection = new signalR.HubConnectionBuilder()
-            //    .withUrl("/randevuhub")
-            //    .build();
 
-            //connection.on("ReceiveRandevuCreatedNotification", (message) => {
-            //    alert(message);
-            //});
 
-            //connection.start().catch(err => console.error(err.toString()));
+            // SignalR bağlantısı kurma
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/randevuhub")
+                .build();
+
+            connection.on("ReceiveRandevuCreatedNotification", (message) => {
+                alert(message);
+            });
+
+            connection.start().catch(err => console.error(err.toString()));
+
+
+            populateTimeOptions([]);
 
             $('#appointmentForm').on('submit', function (event) {
                 event.preventDefault();
                 console.log("Form submitted");
                 $.ajax({
-                    url: '/Kullanici/Appointment',
+                    url: '/Kullanici/Kullanici/Appointment',
                     method: 'POST',
                     data: $(this).serialize(),
                     success: function (response) {
                         console.log("AJAX request successful");
                         connection.invoke("SendRandevuCreatedNotification", "Yeni bir randevu oluşturuldu!")
                             .catch(err => console.error(err.toString()));
-                        $('#message').text("Randevu başarıyla oluşturuldu!").removeClass('d-none');
-                        $('#error-message').addClass('d-none');
+
+                        // Sayfanın yenilenmesi
+                        location.reload();
                     },
                     error: function (err) {
                         console.error(err);
@@ -228,14 +240,12 @@
                         for (var key in err) {
                             console.log(key + ':', err[key]);
                         }
-
-                        var errorMessage = "Randevu oluşturulamadı. Hata: " + err.message;
-                        $('#error-message').text(errorMessage).removeClass('d-none');
-                        $('#message').addClass('d-none');
                     }
-
                 });
             });
+
+
+
         });
 
     </script>
