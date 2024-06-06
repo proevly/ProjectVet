@@ -18,8 +18,4 @@
     <ProjectReference Include="..\..\Core\ProjectVet.Application\ProjectVet.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

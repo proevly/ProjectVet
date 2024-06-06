@@ -12,8 +12,8 @@ using ProjectVet.EfCore;
 namespace ProjectVet.Persistance.Migrations
 {
     [DbContext(typeof(KlinikContext))]
-    [Migration("20240604135911_randevuKisit_eklendi")]
-    partial class randevuKisit_eklendi
+    [Migration("20240605122111_deneme")]
+    partial class deneme
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

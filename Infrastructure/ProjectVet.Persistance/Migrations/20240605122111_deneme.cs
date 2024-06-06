@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProjectVet.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class deneme : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,6 +39,19 @@ namespace ProjectVet.Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Kullanici", x => x.KullaniciId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RandevuKisit",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Tarih = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OgledenOnceMi = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RandevuKisit", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,6 +126,9 @@ namespace ProjectVet.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "Randevu");
+
+            migrationBuilder.DropTable(
+                name: "RandevuKisit");
 
             migrationBuilder.DropTable(
                 name: "Pet");

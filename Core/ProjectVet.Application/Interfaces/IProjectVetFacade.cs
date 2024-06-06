@@ -9,6 +9,8 @@ namespace ProjectVet.Interfaces
         List<KullaniciDto> GetTumKullanicilar();
         void RandevuEkle(Randevu randevu);
         List<Randevu> GetTumRandevular();
+        Task<bool> OnaylaRandevu(Guid id);
+        Task<bool> ReddetRandevu(Guid id);
     }
 
 
